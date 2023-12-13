@@ -2,8 +2,9 @@
 
 use App\Models\Listing;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
 use Spatie\FlareClient\View;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ListingController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,27 +16,13 @@ use Spatie\FlareClient\View;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+
 // All listing
+Route::get('/',[ListingController::class,'index']);
 
-
-
-Route::get('/', function () {
-    return view('Listings',[
-        'heading'=>'Latest Listings',
-        'listings'=>Listing::all()
-]);
-});
-
-// Single listing
-Route::get('/listings/{id}',function($id){
-
-    return view('listing',
-    [
-    'listing'=>Listing::find($id)
-
-    ]
-    );
-}); 
+// Single listing (route model binding)
+Route::get('/listings/{listing}',[ListingController::class,'show']); 
 
 
 // Route::get('/return',function(){
