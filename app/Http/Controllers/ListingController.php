@@ -34,6 +34,8 @@ return view('listings.create');
     // store listing data
     public function store(Request $request)  
     {
+
+    // dd($request->file('logo'));
    // dd($request->all());
 
    $formFiled=$request->validate([
@@ -43,8 +45,13 @@ return view('listings.create');
    'website'=>'required',
     'email'=>['required','email'],
     'tags'=>'required',
-    'description'=>'required'
+    'description'=>'required',
+    'logo'=> 'required|image'
    ]);
+
+   if($request->hasFile('logo')){
+    $formFiled['logo']=$request->file('logo')->store('logos','public');
+   }
 
    Listing::create($formFiled);
 
@@ -52,5 +59,7 @@ return view('listings.create');
         
     }
 }
+
+
 
  
