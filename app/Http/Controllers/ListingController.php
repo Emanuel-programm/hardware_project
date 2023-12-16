@@ -19,6 +19,7 @@ class ListingController extends Controller
 
     // show individual listing
     public function show(Listing $listing){
+        // dd($listing);
         return view('listings.show',
         [
         'listing'=>$listing
@@ -55,9 +56,56 @@ return view('listings.create');
 
    Listing::create($formFiled);
 
-   return redirect('/')->with('message','Listing created successful');
+   return redirect('/')->with('message','Listing created successfuly'); 
         
     }
+
+    // show Edit Form
+public function edit(Listing $listing){
+    // dd($listing);
+return view('listings.edit',[
+    'listing'=>$listing
+]);
+}
+
+
+
+
+// update listing data
+public function update(Request $request,Listing $listing)  
+{
+
+// dd($request->file('logo'));
+// dd($request->all());
+
+$formFiled=$request->validate([
+'title'=>'required',
+'company'=>['required'],
+'location'=>'required',
+'website'=>'required',
+'email'=>['required','email'],
+'tags'=>'required',
+'description'=>'required',
+'logo'=> 'image'
+]);
+
+if($request->hasFile('logo')){
+$formFiled['logo']=$request->file('logo')->store('logos','public');
+}
+
+$listing->update($formFiled);
+
+return back()->with('message','Listing updated successfuly'); 
+    
+}
+
+// Delete listing
+
+public function destroy(Listing $listing){
+$listing->delete();
+return redirect('/')->with('message','Listing deleted suessfuly');
+}
+
 }
 
 

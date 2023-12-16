@@ -27,4 +27,6 @@
 {{$listings->links()}}
 </div>
 
+
+
 </x-layout>
