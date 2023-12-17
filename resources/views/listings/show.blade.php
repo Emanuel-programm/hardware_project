@@ -50,19 +50,19 @@ Website</a
 </x-card>
 </div>
 
-<x-card class="mt-4 p-2 flex space-x-6">
+{{-- <x-card class="mt-4 p-2 flex space-x-6">
 <a href="/listings/{{$listing->id}}/edit">
 <i class="fa-solid fa-pencil"> Edit</i>
-</a>
+</a> --}}
 
-<form method="post" action="/listings/{{$listing->id}}">
+{{-- <form method="post" action="/listings/{{$listing->id}}">
 @csrf
 @method('DELETE')
 
 <button class="text-red-500">
 <i class="fa-solid fa-trash"></i> Delete
-</button>
+</button> --}}
 
-</form>
-</x-card>
+{{-- </form>
+</x-card> --}}
 </x-layout>

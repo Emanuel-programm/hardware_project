@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use id;
 use App\Models\Listing;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -53,6 +54,7 @@ return view('listings.create');
    if($request->hasFile('logo')){
     $formFiled['logo']=$request->file('logo')->store('logos','public');
    }
+   $formFiled['user_id']=auth()->id();
 
    Listing::create($formFiled);
 
@@ -74,6 +76,11 @@ return view('listings.edit',[
 // update listing data
 public function update(Request $request,Listing $listing)  
 {
+
+// make sure only logged in user take the action
+if($listing->user_id != auth()->id){
+    abort(403,'Unaothorized action');
+}
 
 // dd($request->file('logo'));
 // dd($request->all());
@@ -102,11 +109,25 @@ return back()->with('message','Listing updated successfuly');
 // Delete listing
 
 public function destroy(Listing $listing){
+// make sure only logged in user take the action
+if($listing->user_id != auth()->id){
+    abort(403,'Unaothorized action');
+}
+
 $listing->delete();
 return redirect('/')->with('message','Listing deleted suessfuly');
 }
 
+// Manage Listing
+public function manage(){
+    return view('listings.manage',[
+     'listings'=>auth()->user()->listings()->get()   
+    ]);
 }
+
+}
+
+
 
 
 
